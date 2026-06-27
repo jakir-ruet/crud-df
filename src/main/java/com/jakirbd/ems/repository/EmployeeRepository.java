@@ -1,6 +1,6 @@
-package com.jakirbd.employee_management_system.repository;
+package com.jakirbd.ems.repository;
 
-import com.jakirbd.employee_management_system.employee.entity.Employee;
+import com.jakirbd.ems.employee.entity.Employee;
 
 import java.util.List;
 

@@ -1,8 +1,8 @@
-package com.jakirbd.employee_management_system.controller;
+package com.jakirbd.ems.controller;
 
-import com.jakirbd.employee_management_system.employee.dto.EmployeeRequest;
-import com.jakirbd.employee_management_system.employee.dto.EmployeeResponse;
-import com.jakirbd.employee_management_system.service.EmployeeService;
+import com.jakirbd.ems.employee.dto.EmployeeRequest;
+import com.jakirbd.ems.employee.dto.EmployeeResponse;
+import com.jakirbd.ems.service.EmployeeService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;

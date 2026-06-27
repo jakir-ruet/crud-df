@@ -1,4 +1,4 @@
-package com.jakirbd.employee_management_system.employee.entity;
+package com.jakirbd.ems.employee.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

@@ -1,8 +1,8 @@
-package com.jakirbd.employee_management_system.repository;
+package com.jakirbd.ems.repository;
 
-import com.jakirbd.employee_management_system.employee.entity.Employee;
+import com.jakirbd.ems.employee.entity.Employee;
 
-import com.jakirbd.employee_management_system.employee.mapper.EmployeeRowMapper;
+import com.jakirbd.ems.employee.mapper.EmployeeRowMapper;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import org.springframework.jdbc.core.JdbcTemplate;

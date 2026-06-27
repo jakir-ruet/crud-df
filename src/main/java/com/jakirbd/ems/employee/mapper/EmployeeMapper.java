@@ -1,8 +1,8 @@
-package com.jakirbd.employee_management_system.employee.mapper;
+package com.jakirbd.ems.employee.mapper;
 
-import com.jakirbd.employee_management_system.employee.dto.EmployeeRequest;
-import com.jakirbd.employee_management_system.employee.dto.EmployeeResponse;
-import com.jakirbd.employee_management_system.employee.entity.Employee;
+import com.jakirbd.ems.employee.dto.EmployeeRequest;
+import com.jakirbd.ems.employee.dto.EmployeeResponse;
+import com.jakirbd.ems.employee.entity.Employee;
 import org.springframework.stereotype.Component;
 
 @Component

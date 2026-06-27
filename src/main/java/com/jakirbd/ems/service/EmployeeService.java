@@ -1,7 +1,7 @@
-package com.jakirbd.employee_management_system.service;
+package com.jakirbd.ems.service;
 
-import com.jakirbd.employee_management_system.employee.dto.EmployeeRequest;
-import com.jakirbd.employee_management_system.employee.dto.EmployeeResponse;
+import com.jakirbd.ems.employee.dto.EmployeeRequest;
+import com.jakirbd.ems.employee.dto.EmployeeResponse;
 
 import java.util.List;
 

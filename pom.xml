@@ -13,7 +13,7 @@
 	</parent>
 
 	<groupId>com.jakirbd</groupId>
-	<artifactId>employee-management-system</artifactId>
+	<artifactId>ems</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 
 	<name>Employee Management System</name>
