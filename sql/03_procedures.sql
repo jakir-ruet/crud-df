@@ -1,127 +1,192 @@
-CREATE OR REPLACE PACKAGE EMPLOYEE_PKG AS
-
-    -- CREATE
-    PROCEDURE ADD_EMPLOYEE(
-        P_FIRST_NAME  IN VARCHAR2,
-        P_LAST_NAME   IN VARCHAR2,
-        P_EMAIL       IN VARCHAR2,
-        P_PHONE       IN VARCHAR2,
-        P_SALARY      IN NUMBER,
-        P_DEPARTMENT  IN VARCHAR2,
-        P_EMP_ID      OUT NUMBER
+CREATE OR REPLACE PACKAGE employee_pkg AS
+    PROCEDURE add_employee (
+        p_first_name IN employee.first_name%TYPE,
+        p_last_name  IN employee.last_name%TYPE,
+        p_email      IN employee.email%TYPE,
+        p_phone      IN employee.phone%TYPE,
+        p_salary     IN employee.salary%TYPE,
+        p_department IN employee.department%TYPE,
+        p_emp_id     OUT employee.emp_id%TYPE
     );
 
-    -- READ BY ID
-    PROCEDURE GET_EMPLOYEE_BY_ID(
-        P_EMP_ID IN NUMBER,
-        P_CURSOR OUT SYS_REFCURSOR
+    PROCEDURE get_employee_by_id (
+        p_emp_id IN employee.emp_id%TYPE,
+        p_cursor OUT SYS_REFCURSOR
     );
 
-    -- READ ALL
-    PROCEDURE GET_ALL_EMPLOYEES(
-        P_CURSOR OUT SYS_REFCURSOR
+    PROCEDURE get_all_employees (
+        p_cursor OUT SYS_REFCURSOR
     );
 
-    -- UPDATE
-    PROCEDURE UPDATE_EMPLOYEE(
-        P_EMP_ID      IN NUMBER,
-        P_FIRST_NAME  IN VARCHAR2,
-        P_LAST_NAME   IN VARCHAR2,
-        P_EMAIL       IN VARCHAR2,
-        P_PHONE       IN VARCHAR2,
-        P_SALARY      IN NUMBER,
-        P_DEPARTMENT  IN VARCHAR2
+    PROCEDURE update_employee (
+        p_emp_id     IN employee.emp_id%TYPE,
+        p_first_name IN employee.first_name%TYPE,
+        p_last_name  IN employee.last_name%TYPE,
+        p_email      IN employee.email%TYPE,
+        p_phone      IN employee.phone%TYPE,
+        p_salary     IN employee.salary%TYPE,
+        p_department IN employee.department%TYPE
     );
 
-    -- DELETE
-    PROCEDURE DELETE_EMPLOYEE(
-        P_EMP_ID IN NUMBER
+    PROCEDURE delete_employee (
+        p_emp_id IN employee.emp_id%TYPE
     );
-
-END EMPLOYEE_PKG;
+END employee_pkg;
 /
 
-CREATE OR REPLACE PACKAGE BODY EMPLOYEE_PKG AS
+CREATE OR REPLACE PACKAGE BODY employee_pkg AS
 
-    -- CREATE EMPLOYEE
-    PROCEDURE ADD_EMPLOYEE(
-        P_FIRST_NAME  IN VARCHAR2,
-        P_LAST_NAME   IN VARCHAR2,
-        P_EMAIL       IN VARCHAR2,
-        P_PHONE       IN VARCHAR2,
-        P_SALARY      IN NUMBER,
-        P_DEPARTMENT  IN VARCHAR2,
-        P_EMP_ID      OUT NUMBER
-    )
-        IS
+    ----------------------------------------------------------------------------
+    -- Create Employee
+    ----------------------------------------------------------------------------
+    PROCEDURE add_employee (
+        p_first_name IN employee.first_name%TYPE,
+        p_last_name  IN employee.last_name%TYPE,
+        p_email      IN employee.email%TYPE,
+        p_phone      IN employee.phone%TYPE,
+        p_salary     IN employee.salary%TYPE,
+        p_department IN employee.department%TYPE,
+        p_emp_id     OUT employee.emp_id%TYPE
+    ) IS
 BEGIN
-SELECT EMPLOYEE_SEQ.NEXTVAL INTO P_EMP_ID FROM DUAL;
+    SELECT employee_seq.NEXTVAL
+    INTO p_emp_id
+    FROM dual;
 
-INSERT INTO EMPLOYEE (
-    EMP_ID, FIRST_NAME, LAST_NAME, EMAIL,
-    PHONE, SALARY, DEPARTMENT, JOIN_DATE
+INSERT INTO employee (
+    emp_id,
+    first_name,
+    last_name,
+    email,
+    phone,
+    salary,
+    department,
+    join_date
 )
 VALUES (
-           P_EMP_ID, P_FIRST_NAME, P_LAST_NAME, P_EMAIL,
-           P_PHONE, P_SALARY, P_DEPARTMENT, SYSDATE
-       );
-END ADD_EMPLOYEE;
+       p_emp_id,
+       p_first_name,
+       p_last_name,
+       p_email,
+       p_phone,
+       p_salary,
+       p_department,
+       SYSDATE
+   );
 
+EXCEPTION
+        WHEN OTHERS THEN
+            RAISE_APPLICATION_ERROR(
+                -20001,
+                'Error creating employee: ' || SQLERRM
+            );
+END add_employee;
 
-    -- GET BY ID
-    PROCEDURE GET_EMPLOYEE_BY_ID(
-        P_EMP_ID IN NUMBER,
-        P_CURSOR OUT SYS_REFCURSOR
-    )
-IS
+    ----------------------------------------------------------------------------
+    -- Get Employee by ID
+    ----------------------------------------------------------------------------
+    PROCEDURE get_employee_by_id (
+        p_emp_id IN employee.emp_id%TYPE,
+        p_cursor OUT SYS_REFCURSOR
+    ) IS
 BEGIN
-OPEN P_CURSOR FOR
-SELECT * FROM EMPLOYEE WHERE EMP_ID = P_EMP_ID;
-END GET_EMPLOYEE_BY_ID;
+    OPEN p_cursor FOR
+    SELECT
+        emp_id,
+        first_name,
+        last_name,
+        email,
+        phone,
+        salary,
+        department,
+        join_date
+FROM employee
+    WHERE emp_id = p_emp_id;
+    END get_employee_by_id;
 
-
-    -- GET ALL
-    PROCEDURE GET_ALL_EMPLOYEES(
-        P_CURSOR OUT SYS_REFCURSOR
-    )
-IS
+        ----------------------------------------------------------------------------
+        -- Get All Employees
+        ----------------------------------------------------------------------------
+        PROCEDURE get_all_employees (
+            p_cursor OUT SYS_REFCURSOR
+        ) IS
 BEGIN
-OPEN P_CURSOR FOR
-SELECT * FROM EMPLOYEE ORDER BY EMP_ID;
-END GET_ALL_EMPLOYEES;
+    OPEN p_cursor FOR
+    SELECT
+        emp_id,
+        first_name,
+        last_name,
+        email,
+        phone,
+        salary,
+        department,
+        join_date
+    FROM employee
+    ORDER BY emp_id;
+END get_all_employees;
 
-
-    -- UPDATE
-    PROCEDURE UPDATE_EMPLOYEE(
-        P_EMP_ID      IN NUMBER,
-        P_FIRST_NAME  IN VARCHAR2,
-        P_LAST_NAME   IN VARCHAR2,
-        P_EMAIL       IN VARCHAR2,
-        P_PHONE       IN VARCHAR2,
-        P_SALARY      IN NUMBER,
-        P_DEPARTMENT  IN VARCHAR2
-    )
-IS
+    ----------------------------------------------------------------------------
+    -- Update Employee
+    ----------------------------------------------------------------------------
+    PROCEDURE update_employee (
+        p_emp_id     IN employee.emp_id%TYPE,
+        p_first_name IN employee.first_name%TYPE,
+        p_last_name  IN employee.last_name%TYPE,
+        p_email      IN employee.email%TYPE,
+        p_phone      IN employee.phone%TYPE,
+        p_salary     IN employee.salary%TYPE,
+        p_department IN employee.department%TYPE
+    ) IS
 BEGIN
-UPDATE EMPLOYEE
-SET FIRST_NAME = P_FIRST_NAME,
-    LAST_NAME  = P_LAST_NAME,
-    EMAIL      = P_EMAIL,
-    PHONE      = P_PHONE,
-    SALARY     = P_SALARY,
-    DEPARTMENT = P_DEPARTMENT
-WHERE EMP_ID = P_EMP_ID;
-END UPDATE_EMPLOYEE;
+UPDATE employee
+SET first_name = p_first_name,
+    last_name  = p_last_name,
+    email      = p_email,
+    phone      = p_phone,
+    salary     = p_salary,
+    department = p_department
+WHERE emp_id = p_emp_id;
 
+IF SQL%ROWCOUNT = 0 THEN
+            RAISE_APPLICATION_ERROR(
+                -20002,
+                'Employee not found.'
+            );
+END IF;
 
-    -- DELETE
-    PROCEDURE DELETE_EMPLOYEE(
-        P_EMP_ID IN NUMBER
-    )
-IS
+EXCEPTION
+        WHEN OTHERS THEN
+            RAISE_APPLICATION_ERROR(
+                -20003,
+                'Error updating employee: ' || SQLERRM
+            );
+END update_employee;
+
+    ----------------------------------------------------------------------------
+    -- Delete Employee
+    ----------------------------------------------------------------------------
+    PROCEDURE delete_employee (
+        p_emp_id IN employee.emp_id%TYPE
+    ) IS
 BEGIN
-DELETE FROM EMPLOYEE WHERE EMP_ID = P_EMP_ID;
-END DELETE_EMPLOYEE;
+DELETE FROM employee
+WHERE emp_id = p_emp_id;
 
-END EMPLOYEE_PKG;
+IF SQL%ROWCOUNT = 0 THEN
+            RAISE_APPLICATION_ERROR(
+                -20004,
+                'Employee not found.'
+            );
+END IF;
+
+EXCEPTION
+        WHEN OTHERS THEN
+            RAISE_APPLICATION_ERROR(
+                -20005,
+                'Error deleting employee: ' || SQLERRM
+            );
+END delete_employee;
+
+END employee_pkg;
 /
+

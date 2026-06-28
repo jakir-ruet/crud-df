@@ -7,6 +7,7 @@ import jakarta.validation.constraints.Positive;
 import lombok.Data;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 
 @Data
 
@@ -28,6 +29,9 @@ public class EmployeeRequest {
 
     @NotBlank
     private String department;
+
+    @NotBlank
+    private LocalDate javaData;
 }
 
 // Why two DTOs?

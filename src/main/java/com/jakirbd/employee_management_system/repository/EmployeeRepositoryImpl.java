@@ -5,6 +5,7 @@ import com.jakirbd.employee_management_system.employee.entity.Employee;
 import com.jakirbd.employee_management_system.employee.mapper.EmployeeRowMapper;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
+import org.hibernate.validator.internal.util.actions.NewInstance;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.SqlOutParameter;
 import org.springframework.jdbc.core.SqlParameter;
@@ -43,6 +44,7 @@ public class EmployeeRepositoryImpl implements EmployeeRepository {
                         new SqlParameter("P_PHONE", Types.VARCHAR),
                         new SqlParameter("P_SALARY", Types.NUMERIC),
                         new SqlParameter("P_DEPARTMENT", Types.VARCHAR),
+                        new SqlParameter("P_JOIN_DATE", Types.TIMESTAMP),
                         new SqlOutParameter("P_EMP_ID", Types.NUMERIC)
                 );
 
@@ -82,6 +84,7 @@ public class EmployeeRepositoryImpl implements EmployeeRepository {
                         new SqlParameter("P_EMAIL", Types.VARCHAR),
                         new SqlParameter("P_PHONE", Types.VARCHAR),
                         new SqlParameter("P_SALARY", Types.NUMERIC),
+                        new SqlParameter("P_JOIN_DATE", Types.TIMESTAMP),
                         new SqlParameter("P_DEPARTMENT", Types.VARCHAR)
                 );
 
@@ -103,6 +106,7 @@ public class EmployeeRepositoryImpl implements EmployeeRepository {
         parameters.addValue("P_EMAIL", employee.getEmail());
         parameters.addValue("P_PHONE", employee.getPhone());
         parameters.addValue("P_SALARY", employee.getSalary());
+        parameters.addValue("P_JOIN_DATE", employee.getJoinDate());
         parameters.addValue("P_DEPARTMENT", employee.getDepartment());
 
         Map<String, Object> result = addEmployeeCall.execute(parameters);
@@ -149,6 +153,7 @@ public class EmployeeRepositoryImpl implements EmployeeRepository {
         parameters.addValue("P_EMAIL", employee.getEmail());
         parameters.addValue("P_PHONE", employee.getPhone());
         parameters.addValue("P_SALARY", employee.getSalary());
+        parameters.addValue("P_JOIN_DATE", employee.getJoinDate());
         parameters.addValue("P_DEPARTMENT", employee.getDepartment());
 
         updateEmployeeCall.execute(parameters);
