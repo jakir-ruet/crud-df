@@ -1,4 +1,4 @@
-package com.jakirbd.employee_management_system.config;
+package com.jakirbd.ems.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -13,6 +13,7 @@ public class DatabaseConfig {
     public DatabaseConfig(DataSource dataSource) {
         this.dataSource = dataSource;
     }
+
     @Bean
     public JdbcTemplate jdbcTemplate() {
         return new JdbcTemplate(dataSource);

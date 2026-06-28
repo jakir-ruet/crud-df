@@ -1,4 +1,4 @@
-package com.jakirbd.employee_management_system;
+package com.jakirbd.ems;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

@@ -1,4 +1,4 @@
-package com.jakirbd.employee_management_system.employee.dto;
+package com.jakirbd.ems.employee.dto;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
