@@ -1,56 +1,68 @@
 package com.jakirbd.ems.controller;
 
-import com.jakirbd.ems.employee.dto.EmployeeRequest;
-import com.jakirbd.ems.employee.dto.EmployeeResponse;
+import com.jakirbd.ems.dto.EmployeeCreateRequest;
+import com.jakirbd.ems.dto.EmployeeResponse;
+import com.jakirbd.ems.dto.EmployeeUpdateRequest;
 import com.jakirbd.ems.service.EmployeeService;
 import jakarta.validation.Valid;
-import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 
 @RestController
 @RequestMapping("/api/employees")
-@RequiredArgsConstructor
 
 public class EmployeeController {
     private final EmployeeService employeeService;
 
-    // Create
+    public EmployeeController(EmployeeService employeeService) {
+        this.employeeService = employeeService;
+    }
+
     @PostMapping
-    public ResponseEntity<Long> createEmployee(
-            @RequestBody @Valid EmployeeRequest request) {
+    @ResponseStatus(HttpStatus.CREATED)
+    public Map<String, Object> createEmployee(@Valid @RequestBody EmployeeCreateRequest request) {
+        Long empId = employeeService.createEmployee(request);
 
-        Long id = employeeService.createEmployee(request);
-        return new ResponseEntity<>(id, HttpStatus.CREATED);
+        return Map.of(
+                "message", "EMPLOYEE CREATED SUCCESSFULLY.",
+                "empId", empId
+        );
     }
 
-    // Get By ID
-    @GetMapping("/{id}")
-    public ResponseEntity<EmployeeResponse> getEmployee(@PathVariable Long id) {
-        return  ResponseEntity.ok(employeeService.getEmployeeById(id));
+    @GetMapping("/{empId}")
+    public EmployeeResponse getEmployeeById(@PathVariable Long empId) {
+        return employeeService.getEmployeeById(empId);
     }
 
-    // Get All
     @GetMapping
-    public ResponseEntity<List<EmployeeResponse>> getAllEmployees() {
-        return ResponseEntity.ok(employeeService.getAllEmployees());
+    public List<EmployeeResponse> getAllEmployees() {
+        return employeeService.getAllEmployees();
     }
 
-    // Update
-    @PutMapping("/{id}")
-    public ResponseEntity<EmployeeResponse> updateEmployee(@PathVariable Long id, @RequestBody EmployeeRequest request) {
-        employeeService.updateEmployee(id, request);
-        return ResponseEntity.noContent().build();
+    @PutMapping("/{empId}")
+    public Map<String, Object> updateEmployee(
+            @PathVariable Long empId,
+            @Valid @RequestBody EmployeeUpdateRequest request
+    ) {
+        employeeService.updateEmployee(empId, request);
+
+        return Map.of(
+                "message", "EMPLOYEE UPDATED SUCCESSFULLY.",
+                "empId", empId
+        );
     }
 
-    // Delete
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteEmployee(@PathVariable Long id) {
-        employeeService.deleteEmployee(id);
-        return ResponseEntity.noContent().build();
+    @DeleteMapping("/{empId}")
+    public Map<String, Object> deleteEmployee(@PathVariable Long empId) {
+        employeeService.deleteEmployee(empId);
+
+        return Map.of(
+                "message", "EMPLOYEE DELETED SUCCESSFULLY.",
+                "empId", empId
+        );
     }
 }

@@ -1,13 +1,18 @@
 package com.jakirbd.ems.repository;
 
-import com.jakirbd.ems.employee.entity.Employee;
-
 import java.util.List;
+import java.util.Optional;
+
+import com.jakirbd.ems.model.Employee;
 
 public interface EmployeeRepository {
-    Long save(Employee employee);
-    Employee findById(Long employeeId);
+	Long create(Employee employee);
+
+    Optional<Employee> findById(Long empId);
+
     List<Employee> findAll();
-    void update(Employee employee);
-    void delete(Long employeeId);
+
+    void update(Long empId, Employee employee);
+
+    void delete(Long empId);
 }
